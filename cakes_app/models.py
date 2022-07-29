@@ -1,5 +1,7 @@
-from operator import truediv
+# from ast import Add
+# from operator import truediv
 from django.db import models
+from django.contrib.auth.models import User
 import uuid
 
 FLAVOR_CHOICES = [
@@ -45,33 +47,32 @@ PAYMENT_OPTIONS = [
 
 # Create your models here.
 class Guest(models.Model):
-    first_name = models.CharField(max_length=100, blank=False)
-    last_name = models.CharField(max_length=100, blank=False)
-    username = models.CharField(max_length=100, unique=True,blank=False)
-    password = models.CharField(max_length=20, blank=False)
-    email = models.CharField(max_length=100, unique=True, blank=False)
-    rewards_points:models.IntegerField()
-    # id = models.UUIDField(primary_key=True,default=uuid.uuid4, unique=True, auto_created=True)
-    # address = models.ForeignKey()
-    birthday = models.DateField(blank=False)
-    
+    user= models.ForeignKey(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100, blank=True)
+    last_name = models.CharField(max_length=100, blank=True)
+    # username = models.CharField(max_length=100, unique=True,blank=False)
+    # password = models.CharField(max_length=20, blank=False)
+    email = models.CharField(max_length=100, unique=True, blank=True)
+    rewards_points:models.IntegerField(default=50)
+    # birthday = models.DateField(blank=False)
     favorite_flavor = models.CharField(max_length= 40, choices = FLAVOR_CHOICES, default = "Very Vanilla")
 
     def __str__(self):
-        return self.username
+        return self.user.username
 
-class Purchase_History(models.Model):
-    guest= models.ForeignKey(Guest, on_delete=models.CASCADE,related_name="purchase_history")
-    # order_id = models.IntegerField(primary_key=True, default=uuid.uuid4, editable=False)
-    order_date = models.DateTimeField(auto_now=True)
-    total = models.IntegerField()
+# class Purchase_History(models.Model):
+#     guest= models.ForeignKey(Guest, on_delete=models.CASCADE,related_name="purchase_history")
+#     # order_id = models.IntegerField(primary_key=True, default=uuid.uuid4, editable=False)
+#     order_date = models.DateTimeField(auto_now=True)
+#     total = models.IntegerField()
 
-    def __str__(self):
-        return self.total
+    # def __str__(self):
+    #     return self.total
 
 class Cart(models.Model):
     guest= models.ForeignKey(Guest, on_delete=models.CASCADE,null=True, related_name="cart")
     price= models.IntegerField()
+    # previous= models.BooleanField(default=False)
     # purchase_history=models.ForeignKey(Purchase_History, on_delete=models.CASCADE)
 
     def __int__(self):
@@ -89,16 +90,16 @@ class Order(models.Model):
     price = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.cart.guest.username
+        return self.cart.guest.user.username
 
 
 
-class Address(models.Model):
-    street_address = models.CharField(max_length=200,blank=False)
-    city = models.CharField(max_length=200,blank=False)
-    state = models.CharField(max_length=100,blank=False)
-    zip_code = models.IntegerField( blank=False)
-    guest = models.ForeignKey(Guest,on_delete=models.CASCADE,related_name="address")
+# class Address(models.Model):
+#     street_address = models.CharField(max_length=200,blank=False)
+#     city = models.CharField(max_length=200,blank=False)
+#     state = models.CharField(max_length=100,blank=False)
+#     zip_code = models.IntegerField( blank=False)
+#     guest = models.ForeignKey(Guest,on_delete=models.CASCADE,related_name="address")
 
 
 

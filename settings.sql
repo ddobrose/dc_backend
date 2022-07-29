@@ -1,3 +1,3 @@
-CREATE DATABASE daveycakes2;
-CREATE USER daveycakesuser WITH PASSWORD 'daveycakes';
-GRANT ALL PRIVILEGES ON DATABASE daveycakes2 TO daveycakesuser;
+CREATE DATABASE ddcakes;
+CREATE USER ddcakesuser WITH PASSWORD 'ddcakes';
+GRANT ALL PRIVILEGES ON DATABASE ddcakes TO ddcakesuser;

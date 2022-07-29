@@ -18,17 +18,23 @@ from django.urls import path, include
 from rest_framework import routers
 from cakes_app import views
 
+from rest_framework_simplejwt.views import(
+    TokenRefreshView,
+)
+
 router = routers.DefaultRouter()
 router.register(r'guest', views.GuestView, 'guest')
 router.register(r'order', views.OrderView, 'order')
 router.register(r'cart', views.CartView, 'cart')
-router.register(r'purchase_history', views.Purchase_HistoryView, 'purchase_history')
-router.register(r'address', views.AddressView, 'address')
+# router.register(r'purchase_history', views.Purchase_HistoryView, 'purchase_history')
+# router.register(r'address', views.AddressView, 'address')
 router.register(r'cartorders/(?P<cart>\d+)',views.CartOrderView,'cartorders')
 # router.register(r'cart/int:pk/orders/')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    path('api/', include("cakes_app.urls")),
+    path('ddcakes/', include(router.urls)),
     path('accounts/', include('django.contrib.auth.urls')),
+    
 ]
