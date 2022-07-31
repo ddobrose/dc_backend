@@ -1,7 +1,8 @@
 # from typing_extensions import Self
+from django import views
 from django.shortcuts import render
 from rest_framework import viewsets,generics,status
-from .serializers import GuestSerializer,CartSerializer,OrderSerializer
+from .serializers import GuestSerializer,CartSerializer,OrderSerializer, UserSerializer
 from .models import Guest,Order,Cart
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.response import Response
@@ -56,6 +57,22 @@ class OrderView(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     queryset = Order.objects.all()
 
+class UserView(viewsets.ModelViewSet):
+    serializer_class= UserSerializer
+    queryset= User.objects.all()
+
+class UserCartView(viewsets.ModelViewSet):
+    serializer_class= CartSerializer
+    def get_queryset(self):
+         user = self.kwargs["user"]
+         return Cart.objects.filter(user=user,previous=False)
+
+class PastOrderView(viewsets.ModelViewSet):
+    serializer_class= CartSerializer
+    def get_queryset(self):
+         user = self.kwargs["user"]
+         return Cart.objects.filter(user=user,previous=True)
+
 # class Purchase_HistoryView(viewsets.ModelViewSet):
 #     serializer_class = Purchase_HistorySerializer
 #     queryset = Purchase_History.objects.all()
@@ -69,6 +86,12 @@ class CartOrderView(viewsets.ModelViewSet):
     def get_queryset(self):
          cart = self.kwargs["cart"]
          return Order.objects.filter(cart=cart)
+
+class UserGuestView(viewsets.ModelViewSet):
+    serializer_class=GuestSerializer
+    def get_queryset(self):
+        user = self.kwargs['user']
+        return Guest.objects.filter(user=user)
     
     # queryset = Order.objects.filter(cart=2)
 

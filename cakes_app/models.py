@@ -1,5 +1,4 @@
-# from ast import Add
-# from operator import truediv
+
 from django.db import models
 from django.contrib.auth.models import User
 import uuid
@@ -47,7 +46,7 @@ PAYMENT_OPTIONS = [
 
 # Create your models here.
 class Guest(models.Model):
-    user= models.ForeignKey(User, on_delete=models.CASCADE)
+    user= models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100, blank=True)
     last_name = models.CharField(max_length=100, blank=True)
     # username = models.CharField(max_length=100, unique=True,blank=False)
@@ -71,8 +70,9 @@ class Guest(models.Model):
 
 class Cart(models.Model):
     guest= models.ForeignKey(Guest, on_delete=models.CASCADE,null=True, related_name="cart")
-    price= models.IntegerField()
-    # previous= models.BooleanField(default=False)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    price= models.DecimalField(decimal_places=2,max_digits=10)
+    previous= models.BooleanField(default=False)
     # purchase_history=models.ForeignKey(Purchase_History, on_delete=models.CASCADE)
 
     def __int__(self):
@@ -87,7 +87,7 @@ class Order(models.Model):
     size = models.CharField(max_length=100, choices=SIZE_OPTIONS, blank=False)
     qty = models.IntegerField()
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True, related_name='orders')
-    price = models.IntegerField(null=True)
+    price = models.DecimalField(null=True,max_digits=10, decimal_places=2)
 
     def __str__(self):
         return self.cart.guest.user.username

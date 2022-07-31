@@ -1,3 +1,5 @@
+from dataclasses import fields
+from pyexpat import model
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -40,6 +42,11 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return user
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= User
+        fields= ('id','username')
+
 class GuestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Guest
@@ -61,7 +68,7 @@ class OrderSerializer(serializers.ModelSerializer):
 class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model =Cart 
-        fields = ('id', 'guest', 'price')
+        fields = ('id', 'guest', 'price','user','previous')
 
 # class AddressSerializer(serializers.ModelSerializer):
 #     class Meta:

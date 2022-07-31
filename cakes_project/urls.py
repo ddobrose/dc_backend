@@ -26,9 +26,13 @@ router = routers.DefaultRouter()
 router.register(r'guest', views.GuestView, 'guest')
 router.register(r'order', views.OrderView, 'order')
 router.register(r'cart', views.CartView, 'cart')
+router.register(r'user', views.UserView, 'user')
 # router.register(r'purchase_history', views.Purchase_HistoryView, 'purchase_history')
 # router.register(r'address', views.AddressView, 'address')
 router.register(r'cartorders/(?P<cart>\d+)',views.CartOrderView,'cartorders')
+router.register(r'userguest/(?P<user>\d+)',views.UserGuestView,'userguest')
+router.register(r'usercart/(?P<user>\d+)',views.UserCartView,'usercart')
+router.register(r'pastorders/(?P<user>\d+)',views.PastOrderView,'pastorders')
 # router.register(r'cart/int:pk/orders/')
 
 urlpatterns = [
