@@ -1,1 +1,1 @@
-web: gunicorn dc_backend.wsgi
+web: gunicorn cakes_project.wsgi
