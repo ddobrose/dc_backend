@@ -181,7 +181,8 @@ CORS_ORIGIN_WHITELIST = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    "http://127.0.0.1:3000"
+    "http://127.0.0.1:3000",
+    'https://daveydcakes.netlify.app'
 ] # If this is used, then not need to use `CORS_ALLOW_ALL_ORIGINS = True`
 
 
